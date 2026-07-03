@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Herdr チートシート（日本語版）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#10141a;
+    --bg-2:#0b0e13;
+    --panel:#171c24;
+    --panel-2:#1c222c;
+    --line:#2b323c;
+    --line-soft:#232a33;
+    --ink:#e7e9ee;
+    --muted:#8892a0;
+    --prefix:#e3a83b;
+    --prefix-dim:#7a5b21;
+    --blocked:#f2555c;
+    --working:#f0c33f;
+    --done:#4f9ddb;
+    --idle:#57c98a;
+    --unknown:#5c6673;
+    --mono:'JetBrains Mono', ui-monospace, monospace;
+    --sans:'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', sans-serif;
+    --radius:8px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(1200px 500px at 15% -10%, rgba(227,168,59,0.08), transparent 60%),
+      var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    line-height:1.6;
+    padding-bottom:60px;
+  }
+  a{color:inherit;}
+
+  /* ---------- header ---------- */
+  header.hero{
+    padding:56px 24px 28px;
+    max-width:1180px;
+    margin:0 auto;
+    border-bottom:1px solid var(--line);
+  }
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:0.14em;
+    color:var(--prefix);
+    text-transform:uppercase;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:14px;
+  }
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--prefix);display:inline-block;}
+  h1{
+    font-family:var(--mono);
+    font-weight:700;
+    font-size:clamp(28px,4vw,44px);
+    margin:0 0 10px;
+    letter-spacing:-0.01em;
+  }
+  h1 .grad{color:var(--prefix);}
+  .lede{
+    color:var(--muted);
+    font-size:15px;
+    max-width:640px;
+    margin:0 0 26px;
+  }
+
+  /* ---------- prefix demo (signature element) ---------- */
+  .demo{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    flex-wrap:wrap;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:18px 20px;
+  }
+  .demo-label{
+    font-size:12px;
+    color:var(--muted);
+    font-family:var(--mono);
+    margin-right:4px;
+  }
+  kbd{
+    font-family:var(--mono);
+    font-size:14px;
+    font-weight:600;
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    border-bottom-width:2px;
+    border-radius:6px;
+    padding:6px 10px;
+    color:var(--ink);
+    display:inline-block;
+    cursor:pointer;
+    transition:transform .12s ease;
+  }
+  kbd:hover{transform:translateY(-1px);}
+  kbd.prefix{color:var(--prefix); border-color:var(--prefix-dim);}
+  .arrow{color:var(--muted); font-family:var(--mono);}
+
+  @keyframes pulse-prefix{
+    0%,18%{box-shadow:0 0 0 0 rgba(227,168,59,0);border-color:var(--line);color:var(--ink);}
+    4%,14%{box-shadow:0 0 0 4px rgba(227,168,59,0.18);border-color:var(--prefix);color:var(--prefix);}
+    100%{box-shadow:0 0 0 0 rgba(227,168,59,0);border-color:var(--line);color:var(--ink);}
+  }
+  @keyframes pulse-action{
+    0%,40%{box-shadow:0 0 0 0 rgba(87,201,138,0);border-color:var(--line);color:var(--ink);}
+    46%,62%{box-shadow:0 0 0 4px rgba(87,201,138,0.18);border-color:var(--idle);color:var(--idle);}
+    100%{box-shadow:0 0 0 0 rgba(87,201,138,0);border-color:var(--line);color:var(--ink);}
+  }
+  #demo-prefix{animation:pulse-prefix 3.2s ease infinite;}
+  #demo-action{animation:pulse-action 3.2s ease infinite;}
+  @media (prefers-reduced-motion:reduce){
+    #demo-prefix,#demo-action{animation:none;}
+  }
+  .demo-result{font-family:var(--mono); font-size:13px; color:var(--muted);}
+
+  /* ---------- nav tabs (herdr tab-bar homage) ---------- */
+  nav.tabbar{
+    position:sticky; top:0; z-index:5;
+    background:rgba(16,20,26,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+    padding:10px 24px;
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;
+    max-width:1180px;
+    margin:0 auto;
+  }
+  nav.tabbar a{
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--muted);
+    text-decoration:none;
+    padding:7px 12px;
+    border-radius:6px 6px 0 0;
+    border:1px solid transparent;
+  }
+  nav.tabbar a:hover{color:var(--ink); background:var(--panel);}
+
+  /* ---------- layout ---------- */
+  main{max-width:1180px; margin:0 auto; padding:28px 24px 0;}
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+  }
+  @media (max-width:920px){ .grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:600px){ .grid{grid-template-columns:1fr;} }
+  .grid.wide{grid-template-columns:repeat(2,1fr);}
+  @media (max-width:760px){ .grid.wide{grid-template-columns:1fr;} }
+
+  .pane{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:18px 18px 16px;
+    scroll-margin-top:60px;
+  }
+  .pane h3{
+    font-family:var(--mono);
+    font-size:13px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--prefix);
+    margin:0 0 12px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .pane h3::before{content:"▸"; color:var(--line);}
+  section{margin-bottom:34px;}
+  section > h2{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--muted);
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    border-bottom:1px dashed var(--line);
+    padding-bottom:8px;
+    margin:0 0 14px;
+  }
+
+  table{width:100%; border-collapse:collapse; font-size:13.5px;}
+  td{padding:6px 0; vertical-align:top;}
+  td.key{width:44%; white-space:nowrap;}
+  td.desc{color:var(--muted);}
+  tr + tr td{border-top:1px solid var(--line-soft);}
+
+  code.cmd{
+    display:block;
+    font-family:var(--mono);
+    font-size:12.8px;
+    background:var(--bg-2);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:8px 10px;
+    margin:6px 0;
+    color:#c9d4de;
+    cursor:pointer;
+    overflow-x:auto;
+    white-space:pre;
+  }
+  code.cmd:hover{border-color:var(--prefix-dim);}
+  .cmd-note{font-size:12px; color:var(--muted); margin:2px 0 10px;}
+
+  .pill{
+    display:inline-flex; align-items:center; gap:6px;
+    font-family:var(--mono); font-size:12px;
+    padding:4px 10px; border-radius:20px;
+    border:1px solid var(--line);
+    color:var(--ink);
+    margin:3px 6px 3px 0;
+  }
+  .pill .d{width:8px;height:8px;border-radius:50%;}
+  .blocked .d{background:var(--blocked);}
+  .working .d{background:var(--working);}
+  .done .d{background:var(--done);}
+  .idle .d{background:var(--idle);}
+  .unknown .d{background:var(--unknown);}
+
+  .split-two{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  @media (max-width:760px){ .split-two{grid-template-columns:1fr;} }
+
+  .flag{color:var(--prefix); font-family:var(--mono); font-size:12.5px;}
+  .note{
+    font-size:12.5px; color:var(--muted);
+    border-left:2px solid var(--prefix-dim);
+    padding:6px 0 6px 12px;
+    margin-top:10px;
+  }
+
+  footer{
+    max-width:1180px; margin:40px auto 0; padding:20px 24px 0;
+    border-top:1px solid var(--line);
+    font-size:12px; color:var(--muted);
+  }
+  footer a{color:var(--prefix); text-decoration:none;}
+  footer ul{margin:8px 0; padding-left:18px;}
+  footer li{margin:3px 0;}
+
+  .toast{
+    position:fixed; bottom:22px; left:50%; transform:translateX(-50%) translateY(20px);
+    background:var(--panel-2); border:1px solid var(--prefix-dim);
+    color:var(--ink); font-family:var(--mono); font-size:12.5px;
+    padding:9px 16px; border-radius:8px;
+    opacity:0; pointer-events:none;
+    transition:opacity .18s ease, transform .18s ease;
+    z-index:20;
+  }
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+
+  @media print{
+    body{background:#fff; color:#111;}
+    nav.tabbar, .demo, .toast{display:none;}
+    .pane{background:#fff; border-color:#ccc; break-inside:avoid;}
+    section > h2{color:#555; border-color:#ccc;}
+    code.cmd{background:#f4f4f4; color:#111; border-color:#ccc;}
+    h1, .pane h3, .eyebrow{color:#111 !important;}
+    .grid{grid-template-columns:repeat(2,1fr) !important;}
+    footer a{color:#111;}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="eyebrow"><span class="dot"></span>UNOFFICIAL JAPANESE REFERENCE</div>
+  <h1>Herdr <span class="grad">チートシート</span></h1>
+  <p class="lede">AIコーディングエージェント向けターミナルマルチプレクサ「Herdr」の、よく使うキー操作とCLIコマンドをまとめた非公式の日本語リファレンスです。クリックでコピーできます。</p>
+
+  <div class="demo">
+    <span class="demo-label">操作の基本：</span>
+    <kbd id="demo-prefix" class="prefix">ctrl+b</kbd>
+    <span class="arrow">→ 離す →</span>
+    <kbd id="demo-action">c</kbd>
+    <span class="demo-result">＝ 新規タブを作成（prefix+c）</span>
+  </div>
+</header>
+
+<nav class="tabbar">
+  <a href="#basics">基本5つ</a>
+  <a href="#pane">ペイン</a>
+  <a href="#tab">タブ</a>
+  <a href="#workspace">ワークスペース/セッション</a>
+  <a href="#copy">コピーモード</a>
+  <a href="#cli">CLI</a>
+  <a href="#remote">リモート</a>
+  <a href="#skill">Agent Skill</a>
+  <a href="#status">状態凡例</a>
+</nav>
+
+<main>
+
+  <section id="basics">
+    <h2>まず覚える5つ（prefixは既定で ctrl+b）</h2>
+    <div class="pane">
+      <table>
+        <tr><td class="key"><kbd>prefix</kbd>+<kbd>c</kbd></td><td class="desc">新規タブ</td></tr>
+        <tr><td class="key"><kbd>prefix</kbd>+<kbd>v</kbd></td><td class="desc">右にペイン分割</td></tr>
+        <tr><td class="key"><kbd>prefix</kbd>+<kbd>-</kbd></td><td class="desc">下にペイン分割</td></tr>
+        <tr><td class="key"><kbd>prefix</kbd>+<kbd>h/j/k/l</kbd></td><td class="desc">ペイン間移動</td></tr>
+        <tr><td class="key"><kbd>prefix</kbd>+<kbd>q</kbd></td><td class="desc">デタッチ（サーバーとagentは動き続ける）</td></tr>
+      </table>
+      <div class="note">全バインド一覧はいつでも <kbd>prefix</kbd>+<kbd>?</kbd> で確認できます（設定変更後も現在値を反映）。</div>
+    </div>
+  </section>
+
+  <div class="grid" id="pane-tab-wrap">
+    <div class="pane" id="pane">
+      <h3>ペイン操作</h3>
+      <table>
+        <tr><td class="key"><kbd>prefix</kbd>+<kbd>z</kbd></td><td class="desc">フォーカス中ペインをズーム</td></tr>
+        <tr><td class="key"><kbd>prefix</kbd>+<kbd>x</kbd></td><td class="desc">ペインを閉じる</td></tr>
+        <tr><td class="key"><kbd>prefix</kbd>+<kbd>shift+h/j/k/l</kbd></td><td class="desc">ペイン入れ替え</td></tr>
+        <tr><td class="key"><kbd>prefix</kbd>+<kbd>r</kbd></td><td class="desc">リサイズモード</td></tr>
+        <tr><td class="key"><kbd>prefix</kbd>+<kbd>[</kbd></td><td class="desc">コピーモードへ</td></tr>
+      </table>
+    </div>
+
+    <div class="pane" id="tab">
+      <h3>タブ操作</h3>
+      <table>
+        <tr><td class="key"><kbd>prefix</kbd>+<kbd>n</kbd> / <kbd>p</kbd></td><td class="desc">次 / 前のタブ</td></tr>
+        <tr><td class="key"><kbd>prefix</kbd>+<kbd>1..9</kbd></td><td class="desc">タブ番号へジャンプ</td></tr>
+        <tr><td class="key"><kbd>prefix</kbd>+<kbd>shift+t</kbd></td><td class="desc">タブをリネーム</td></tr>
+        <tr><td class="key"><kbd>prefix</kbd>+<kbd>shift+x</kbd></td><td class="desc">タブを閉じる</td></tr>
+      </table>
+    </div>
+
+    <div class="pane" id="workspace">
+      <h3>ワークスペース / セッション</h3>
+      <table>
+        <tr><td class="key"><kbd>prefix</kbd>+<kbd>shift+n</kbd></td><td class="desc">新規ワークスペース</td></tr>
+        <tr><td class="key"><kbd>prefix</kbd>+<kbd>shift+w</kbd></td><td class="desc">ワークスペースをリネーム</td></tr>
+        <tr><td class="key"><kbd>prefix</kbd>+<kbd>shift+d</kbd></td><td class="desc">ワークスペースを閉じる</td></tr>
+        <tr><td class="key"><kbd>prefix</kbd>+<kbd>g</kbd></td><td class="desc">検索可能なジャンプ先ピッカー</td></tr>
+        <tr><td class="key"><kbd>prefix</kbd>+<kbd>b</kbd></td><td class="desc">サイドバー表示切替</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <section id="copy">
+    <h2>コピーモード（prefix+[ で開始）</h2>
+    <div class="pane">
+      <table>
+        <tr><td class="key"><kbd>h/j/k/l</kbd>, <kbd>w/b/e</kbd>, <kbd>{ }</kbd></td><td class="desc">カーソル移動（単語・段落単位含む）</td></tr>
+        <tr><td class="key"><kbd>v</kbd> / <kbd>space</kbd></td><td class="desc">選択開始</td></tr>
+        <tr><td class="key"><kbd>y</kbd> / <kbd>enter</kbd></td><td class="desc">コピーして終了</td></tr>
+        <tr><td class="key"><kbd>q</kbd> / <kbd>esc</kbd></td><td class="desc">コピーモード終了</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section id="cli">
+    <h2>CLIコマンド抜粋</h2>
+    <div class="grid wide">
+      <div class="pane">
+        <h3>セッション / サーバー</h3>
+        <code class="cmd">herdr server stop</code>
+        <div class="cmd-note">既定セッションを完全に停止（パネは全て終了）</div>
+        <code class="cmd">herdr session list [--json]
+herdr session attach &lt;name&gt;
+herdr session stop &lt;name&gt; [--json]
+herdr session delete &lt;name&gt; [--json]</code>
+        <div class="cmd-note">名前付きセッションの一覧・接続・停止・削除</div>
+      </div>
+
+      <div class="pane">
+        <h3>ワークスペース / worktree</h3>
+        <code class="cmd">herdr workspace close &lt;id&gt;</code>
+        <div class="cmd-note">Herdr内部の状態のみ閉じる（Git worktree自体は残る）</div>
+        <code class="cmd">herdr worktree create --branch NAME [--base REF]
+herdr worktree open --path PATH
+herdr worktree remove --workspace ID [--force]</code>
+        <div class="cmd-note">Git worktreeを作成・開く・削除しつつワークスペース化</div>
+      </div>
+
+      <div class="pane">
+        <h3>ペイン制御（エージェント向け）</h3>
+        <code class="cmd">herdr pane split 1-2 --direction right --no-focus
+herdr pane run &lt;pane_id&gt; "npm run dev"
+herdr wait output &lt;pane_id&gt; --match "ready" --timeout 30000
+herdr pane read &lt;pane_id&gt; --source recent --lines 20</code>
+        <div class="cmd-note">分割 → 実行 → 出力待機 → 読み取り、の定番フロー</div>
+      </div>
+
+      <div class="pane">
+        <h3>エージェント状態待機・統合</h3>
+        <code class="cmd">herdr wait agent-status 1-1 --status done --timeout 120000</code>
+        <div class="cmd-note">隣のエージェントが done になるまで待つ</div>
+        <code class="cmd">herdr integration install &lt;agent&gt;</code>
+        <div class="cmd-note">対応: pi, codex, claude, copilot, devin, droid, kimi, opencode, kilo, hermes, qodercli, cursor など</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="remote">
+    <h2>リモート利用の2パターン</h2>
+    <div class="split-two">
+      <div class="pane">
+        <h3>① SSHで入って起動（tmux方式）</h3>
+        <code class="cmd">ssh you@your-server
+herdr</code>
+        <div class="cmd-note">Herdrはサーバー上で完結。シンプルで実用的。ローカルの画像クリップボード連携は不可。</div>
+      </div>
+      <div class="pane">
+        <h3>② ローカルからシンクライアント接続</h3>
+        <code class="cmd">herdr --remote workbox
+herdr --remote ssh://you@server:2222</code>
+        <div class="cmd-note">ローカルHerdrがSSH越しに接続。画像クリップボードペーストなどをブリッジ可能。</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skill">
+    <h2>Agent Skill（エージェントにHerdrを操作させる）</h2>
+    <div class="pane">
+      <code class="cmd">npx skills add ogulcancelik/herdr --skill herdr -g</code>
+      <div class="cmd-note">全対応エージェントにグローバルインストール（-g省略でプロジェクト限定）</div>
+      <p class="flag">⚠ ガードレール：環境変数 <kbd style="cursor:default;">HERDR_ENV=1</kbd> が無い場合、エージェントは「Herdr管理下のpaneで動いていない」と表明して停止します。</p>
+    </div>
+  </section>
+
+  <section id="status">
+    <h2>エージェント状態の凡例</h2>
+    <div class="pane">
+      <span class="pill blocked"><span class="d"></span>blocked（入力待ち）</span>
+      <span class="pill working"><span class="d"></span>working（実行中）</span>
+      <span class="pill done"><span class="d"></span>done（完了・未確認）</span>
+      <span class="pill idle"><span class="d"></span>idle（完了確認済み/待機）</span>
+      <span class="pill unknown"><span class="d"></span>unknown（判別不能）</span>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>本ページはClaudeが会話内で確認した公式ドキュメントの内容をもとに作成した<strong>非公式の日本語まとめ</strong>です。Herdr開発元による公式資料ではありません。最新情報は必ず公式ドキュメントをご確認ください。</p>
+  <ul>
+    <li><a href="https://herdr.dev/docs/" target="_blank" rel="noopener">herdr.dev/docs</a> — Quick start / Keyboard / Concepts / CLI reference / Persistence &amp; remote / Configuration / Agent skill</li>
+    <li><a href="https://github.com/ogulcancelik/herdr" target="_blank" rel="noopener">github.com/ogulcancelik/herdr</a> — README / SKILL.md</li>
+  </ul>
+</footer>
+
+<div class="toast" id="toast">コピーしました</div>
+
+<script>
+  document.querySelectorAll('kbd, code.cmd').forEach(function(el){
+    el.addEventListener('click', function(){
+      var text = el.textContent.trim();
+      if(!text) return;
+      navigator.clipboard && navigator.clipboard.writeText(text).then(function(){
+        var toast = document.getElementById('toast');
+        toast.textContent = 'コピーしました: ' + (text.length > 28 ? text.slice(0,28)+'…' : text);
+        toast.classList.add('show');
+        clearTimeout(window.__t);
+        window.__t = setTimeout(function(){ toast.classList.remove('show'); }, 1400);
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
