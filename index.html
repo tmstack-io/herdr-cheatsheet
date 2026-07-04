@@ -24,7 +24,7 @@
     --done:#4f9ddb;
     --idle:#57c98a;
     --unknown:#5c6673;
-    --mono:'JetBrains Mono', ui-monospace, monospace;
+    --mono:'JetBrains Mono', 'Noto Sans JP', ui-monospace, monospace;
     --sans:'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', sans-serif;
     --radius:8px;
   }
@@ -46,7 +46,6 @@
     padding:56px 24px 28px;
     max-width:1180px;
     margin:0 auto;
-    border-bottom:1px solid var(--line);
   }
   .eyebrow{
     font-family:var(--mono);
@@ -130,15 +129,25 @@
   /* ---------- nav tabs (herdr tab-bar homage) ---------- */
   nav.tabbar{
     position:sticky; top:0; z-index:5;
-    background:rgba(16,20,26,0.92);
-    backdrop-filter:blur(6px);
-    border-bottom:1px solid var(--line);
     padding:10px 24px;
     display:flex;
     gap:6px;
     flex-wrap:wrap;
     max-width:1180px;
     margin:0 auto;
+  }
+  /* 背景は::beforeで画面幅いっぱいに敷く（1180px超の画面で左右が透けるのを防ぐ） */
+  nav.tabbar::before{
+    content:"";
+    position:absolute;
+    top:0; bottom:0; left:50%;
+    width:100vw;
+    transform:translateX(-50%);
+    background:rgba(16,20,26,0.92);
+    backdrop-filter:blur(6px);
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    z-index:-1;
   }
   nav.tabbar a{
     font-family:var(--mono);
@@ -162,6 +171,8 @@
   @media (max-width:600px){ .grid{grid-template-columns:1fr;} }
   .grid.wide{grid-template-columns:repeat(2,1fr);}
   @media (max-width:760px){ .grid.wide{grid-template-columns:1fr;} }
+  /* section外のグリッドにもセクションと同じ下余白を確保する */
+  #pane-tab-wrap{margin-bottom:34px;}
 
   .pane{
     background:var(--panel);
@@ -169,6 +180,7 @@
     border-radius:var(--radius);
     padding:18px 18px 16px;
     scroll-margin-top:60px;
+    min-width:0; /* グリッド内で長いコード行によりmin-content幅まで広がるのを防ぐ */
   }
   .pane h3{
     font-family:var(--mono);
@@ -196,7 +208,7 @@
 
   table{width:100%; border-collapse:collapse; font-size:13.5px;}
   td{padding:6px 0; vertical-align:top;}
-  td.key{width:44%; white-space:nowrap;}
+  td.key{width:44%; white-space:nowrap; padding-right:16px;}
   td.desc{color:var(--muted);}
   tr + tr td{border-top:1px solid var(--line-soft);}
 
@@ -309,13 +321,13 @@
     <h2>まず覚える5つ（prefixは既定で ctrl+b）</h2>
     <div class="pane">
       <table>
-        <tr><td class="key"><kbd>prefix</kbd>+<kbd>c</kbd></td><td class="desc">新規タブ</td></tr>
-        <tr><td class="key"><kbd>prefix</kbd>+<kbd>v</kbd></td><td class="desc">右にペイン分割</td></tr>
-        <tr><td class="key"><kbd>prefix</kbd>+<kbd>-</kbd></td><td class="desc">下にペイン分割</td></tr>
-        <tr><td class="key"><kbd>prefix</kbd>+<kbd>h/j/k/l</kbd></td><td class="desc">ペイン間移動</td></tr>
-        <tr><td class="key"><kbd>prefix</kbd>+<kbd>q</kbd></td><td class="desc">デタッチ（サーバーとagentは動き続ける）</td></tr>
+        <tr><td class="key"><kbd>pre</kbd> + <kbd>c</kbd></td><td class="desc">新規タブ</td></tr>
+        <tr><td class="key"><kbd>pre</kbd> + <kbd>v</kbd></td><td class="desc">右にペイン分割</td></tr>
+        <tr><td class="key"><kbd>pre</kbd> + <kbd>-</kbd></td><td class="desc">下にペイン分割</td></tr>
+        <tr><td class="key"><kbd>pre</kbd> + <kbd>h/j/k/l</kbd></td><td class="desc">ペイン間移動</td></tr>
+        <tr><td class="key"><kbd>pre</kbd> + <kbd>q</kbd></td><td class="desc">デタッチ（サーバーとagentは動き続ける）</td></tr>
       </table>
-      <div class="note">全バインド一覧はいつでも <kbd>prefix</kbd>+<kbd>?</kbd> で確認できます（設定変更後も現在値を反映）。</div>
+      <div class="note">全バインド一覧はいつでも <kbd>pre</kbd> + <kbd>?</kbd> で確認できます（設定変更後も現在値を反映）。</div>
     </div>
   </section>
 
@@ -323,32 +335,32 @@
     <div class="pane" id="pane">
       <h3>ペイン操作</h3>
       <table>
-        <tr><td class="key"><kbd>prefix</kbd>+<kbd>z</kbd></td><td class="desc">フォーカス中ペインをズーム</td></tr>
-        <tr><td class="key"><kbd>prefix</kbd>+<kbd>x</kbd></td><td class="desc">ペインを閉じる</td></tr>
-        <tr><td class="key"><kbd>prefix</kbd>+<kbd>shift+h/j/k/l</kbd></td><td class="desc">ペイン入れ替え</td></tr>
-        <tr><td class="key"><kbd>prefix</kbd>+<kbd>r</kbd></td><td class="desc">リサイズモード</td></tr>
-        <tr><td class="key"><kbd>prefix</kbd>+<kbd>[</kbd></td><td class="desc">コピーモードへ</td></tr>
+        <tr><td class="key"><kbd>pre</kbd> + <kbd>z</kbd></td><td class="desc">フォーカス中ペインをズーム</td></tr>
+        <tr><td class="key"><kbd>pre</kbd> + <kbd>x</kbd></td><td class="desc">ペインを閉じる</td></tr>
+        <tr><td class="key"><kbd>pre</kbd> + <kbd>shift+h/j/k/l</kbd></td><td class="desc">ペイン入れ替え</td></tr>
+        <tr><td class="key"><kbd>pre</kbd> + <kbd>r</kbd></td><td class="desc">リサイズモード</td></tr>
+        <tr><td class="key"><kbd>pre</kbd> + <kbd>[</kbd></td><td class="desc">コピーモードへ</td></tr>
       </table>
     </div>
 
     <div class="pane" id="tab">
       <h3>タブ操作</h3>
       <table>
-        <tr><td class="key"><kbd>prefix</kbd>+<kbd>n</kbd> / <kbd>p</kbd></td><td class="desc">次 / 前のタブ</td></tr>
-        <tr><td class="key"><kbd>prefix</kbd>+<kbd>1..9</kbd></td><td class="desc">タブ番号へジャンプ</td></tr>
-        <tr><td class="key"><kbd>prefix</kbd>+<kbd>shift+t</kbd></td><td class="desc">タブをリネーム</td></tr>
-        <tr><td class="key"><kbd>prefix</kbd>+<kbd>shift+x</kbd></td><td class="desc">タブを閉じる</td></tr>
+        <tr><td class="key"><kbd>pre</kbd> + <kbd>n</kbd> / <kbd>p</kbd></td><td class="desc">次 / 前のタブ</td></tr>
+        <tr><td class="key"><kbd>pre</kbd> + <kbd>1..9</kbd></td><td class="desc">タブ番号へジャンプ</td></tr>
+        <tr><td class="key"><kbd>pre</kbd> + <kbd>shift+t</kbd></td><td class="desc">タブをリネーム</td></tr>
+        <tr><td class="key"><kbd>pre</kbd> + <kbd>shift+x</kbd></td><td class="desc">タブを閉じる</td></tr>
       </table>
     </div>
 
     <div class="pane" id="workspace">
       <h3>ワークスペース / セッション</h3>
       <table>
-        <tr><td class="key"><kbd>prefix</kbd>+<kbd>shift+n</kbd></td><td class="desc">新規ワークスペース</td></tr>
-        <tr><td class="key"><kbd>prefix</kbd>+<kbd>shift+w</kbd></td><td class="desc">ワークスペースをリネーム</td></tr>
-        <tr><td class="key"><kbd>prefix</kbd>+<kbd>shift+d</kbd></td><td class="desc">ワークスペースを閉じる</td></tr>
-        <tr><td class="key"><kbd>prefix</kbd>+<kbd>g</kbd></td><td class="desc">検索可能なジャンプ先ピッカー</td></tr>
-        <tr><td class="key"><kbd>prefix</kbd>+<kbd>b</kbd></td><td class="desc">サイドバー表示切替</td></tr>
+        <tr><td class="key"><kbd>pre</kbd> + <kbd>shift+n</kbd></td><td class="desc">新規ワークスペース</td></tr>
+        <tr><td class="key"><kbd>pre</kbd> + <kbd>shift+w</kbd></td><td class="desc">ワークスペースをリネーム</td></tr>
+        <tr><td class="key"><kbd>pre</kbd> + <kbd>shift+d</kbd></td><td class="desc">ワークスペースを閉じる</td></tr>
+        <tr><td class="key"><kbd>pre</kbd> + <kbd>g</kbd></td><td class="desc">検索可能なジャンプ先ピッカー</td></tr>
+        <tr><td class="key"><kbd>pre</kbd> + <kbd>b</kbd></td><td class="desc">サイドバー表示切替</td></tr>
       </table>
     </div>
   </div>
